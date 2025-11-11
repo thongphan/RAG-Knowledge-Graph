@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Dict
 from repository.provider_repository import ProviderRepository
 from dto.provider_DTO import ProviderDTO
 from ollama import Client
@@ -13,7 +13,7 @@ class ProviderService():
         records = self.provider_repo.get_all()
         return [ProviderDTO(name=r["name"], bio=r["bio"],comprehensiveEmbedding=r.get("comprehensiveEmbedding")) for r in records]
 
-    def update_embeddings_for_all_providers(self):
+    def update_embeddings_for_all_providers_with_bio(self):
         """Fetch all providers, generate embeddings, and update in Neo4j."""
         providers = self.provider_repo.get_all()
 
@@ -37,6 +37,25 @@ class ProviderService():
 
             except Exception as e:
                 print(f"⚠️ Error generating embedding for {name}: {e}")
+
+    def search_providers_by_query(self, query: str, top_k: int = 5) -> List[Dict]:
+        """
+        Search for providers most similar to the query embedding.
+        Returns top_k provider DTOs with similarity score.
+        """
+        client = Client(host=AppConfig.EMBEDDING_API_BASE)
+
+        query_text = "Experienced cardiologist with research background"
+        response = client.embed(model=AppConfig.EMBEDDING_MODEL, input=query_text)
+
+        query_vector = response.get("embeddings")
+        # flatten if nested
+        if query_vector and isinstance(query_vector[0], list):
+            query_vector = [item for sublist in query_vector for item in sublist]
+
+        print("Query vector length:", len(query_vector))
+        results = self.provider_repo.similarity_search(query_vector, top_k=top_k)
+        return results
 
     def create_vector_index(self):
         """Create vector index for provider embeddings."""

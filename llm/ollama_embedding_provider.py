@@ -1,11 +1,6 @@
-from abc import ABC, abstractmethod
 from typing import List
-
-class BaseEmbeddingProvider(ABC):
-    @abstractmethod
-    def embed_text(self, text: str) -> List[float]:
-        pass
 from ollama import Client as OllamaClient
+from core.interfaces.base_embedding_provider import BaseEmbeddingProvider
 
 class OllamaEmbeddingProvider(BaseEmbeddingProvider):
     def __init__(self, model: str, host: str = "http://localhost:11434"):

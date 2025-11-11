@@ -60,6 +60,27 @@ class ProviderRepository(BaseRepository):
             """
         )
 
+    def similarity_search(self, query_vector: List[float], top_k: int = 5):
+        """
+        Perform a cosine similarity search in Neo4j over 'comprehensiveEmbedding'.
+        """
+        # labels = [r["labels"] for r in self.executor.query("""
+        #     MATCH (n)
+        #     RETURN DISTINCT labels(n) AS labels
+        # """)]
+        # print(labels)
+
+        cypher = f"""
+           MATCH (p:HealthcareProvider)
+           WHERE p.comprehensiveEmbedding IS NOT NULL
+           WITH p, gds.similarity.cosine(p.comprehensiveEmbedding, $query_vector) AS score
+           RETURN p.name AS name, p.bio AS bio, score
+           ORDER BY score DESC
+           LIMIT $top_k
+           """
+        params = {"query_vector": query_vector, "top_k": top_k}
+        return self.executor.query(cypher, params)
+
     def add_providers(self, batch):
         self.executor.execute_batch(
             """

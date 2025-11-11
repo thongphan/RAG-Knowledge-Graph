@@ -7,13 +7,14 @@ from repository.neo4j_repository import Neo4jRepository
 from service.rag_graph_chain_service import RAGPipelineService
 from service.graph_ETL_service import GraphETLService
 from database.neo4j_graph import GraphDB
-from llm.providers.ollama_provider import OllamaChatProvider
+from llm.providers.ollama_chat_provider import OllamaProvider
 from service.chat_service import ChatService
+from service.embedding_service import EmbeddingService
 
 
 if __name__ == "__main__":
     # Initialize Ollama-based provider
-    ollama_provider = OllamaChatProvider(model="llama3")
+    ollama_provider = OllamaProvider(model="llama3")
 
     # Inject provider into the chat service
     chat_service = ChatService(provider=ollama_provider)
@@ -37,17 +38,18 @@ if __name__ == "__main__":
     # etl_service = GraphETLService(extractor, transformer, loader)
     # etl_service.run("Pham Minh Chinh")
 
+
     structured = StructuredRetriever(graph)
     unstructured = UnstructuredRetriever()
 
     pipeline = RAGPipelineService(structured, unstructured, ollama_provider.client)
     # Follow-up question with history
     response = pipeline.run(
-        "When did he become the first emperor?",
-        chat_history=[("Who was the first emperor?", "Augustus was the first emperor.")]
+        "cardiologist with over 20?",
+        chat_history=[("specializes in neurology", "specializes in neurology")]
     )
     print(response)
 
     # Simple question without history
-    response2 = pipeline.run("Who is Pham Minh Chinh?")
-    print(response2)
+    #response2 = pipeline.run("Who is Pham Minh Chinh?")
+    #print(response2)

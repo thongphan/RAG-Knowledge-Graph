@@ -38,9 +38,9 @@ def test_chat_service_raises_error_on_empty_message(chat_service):
 
 @pytest.mark.integration
 def test_chat_service_with_real_ollama():
-    from llm.providers.ollama_provider import OllamaChatProvider
+    from llm.providers.ollama_chat_provider import OllamaProvider
 
-    provider = OllamaChatProvider(model="llama3")
+    provider = OllamaProvider(model="llama3")
     service = ChatService(provider=provider)
     response = service.chat("What is RAG?")
     assert isinstance(response, str)

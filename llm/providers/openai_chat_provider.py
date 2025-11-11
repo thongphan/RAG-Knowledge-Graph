@@ -2,7 +2,7 @@ from langchain_openai import ChatOpenAI
 from core.interfaces.base_chat_provider import BaseChatProvider
 
 
-class OpenAIChatProvider(BaseChatProvider):
+class OpenAIProvider(BaseChatProvider):
     """Chat provider implementation using OpenAI API."""
 
     def __init__(self, model: str = "gpt-4o-mini", api_key: str = None, temperature: float = 0.7):

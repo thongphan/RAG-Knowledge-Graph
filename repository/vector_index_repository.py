@@ -1,7 +1,7 @@
 from core.db_factory import DBFactory
 from langchain_community.vectorstores import Neo4jVector
 from typing import List
-from llm.embedding_providers import BaseEmbeddingProvider
+from llm.ollama_embedding_provider import BaseEmbeddingProvider
 
 class VectorIndexRepository:
     """Handles creation of vector index in Neo4j for any entity type."""

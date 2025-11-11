@@ -1,8 +1,7 @@
 from langchain_ollama import ChatOllama
 from core.interfaces.base_chat_provider import BaseChatProvider
 
-
-class OllamaChatProvider(BaseChatProvider):
+class OllamaProvider(BaseChatProvider):
     """Chat provider implementation using Ollama."""
 
     def __init__(self, model: str = "llama3", temperature: float = 0.7, base_url: str = "http://localhost:11434"):
@@ -12,3 +11,4 @@ class OllamaChatProvider(BaseChatProvider):
         """Generate response using Ollama model."""
         result = self.client.invoke(prompt)
         return result.content
+

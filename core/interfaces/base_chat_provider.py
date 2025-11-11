@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 from typing import Any, Dict, Optional
+from typing import List
 
 class BaseChatProvider(ABC):
     """Abstract base for all chat model providers."""
