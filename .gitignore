@@ -1,0 +1,60 @@
+# ---- Python general ----
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.log
+*.sqlite3
+*.db
+
+# ---- Virtual environments ----
+.env
+.venv/
+env/
+venv/
+
+# ---- IDE & Editor files ----
+.vscode/
+.idea/
+*.iml
+
+# ---- OS / System files ----
+.DS_Store
+Thumbs.db
+
+# ---- Testing ----
+.coverage
+pytest_cache/
+htmlcov/
+
+# ---- Build & packaging ----
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# ---- Cache & temp ----
+.cache/
+tmp/
+logs/
+output/
+data/
+
+# ---- Models / Embeddings ----
+*.bin
+*.ckpt
+*.pt
+*.model
+*.jsonl
+*.csv
+
+# ---- Docker ----
+*.pid
+*.log
+docker-compose.override.yml
+
+# ---- Neo4j / LLM Local files ----
+neo4j/data/
+neo4j/logs/
+neo4j/import/
+ollama_models/
